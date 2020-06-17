@@ -1,0 +1,1396 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "openshift.io/scc": "hostnetwork"
+                },
+                "creationTimestamp": "2020-06-15T09:41:04Z",
+                "generateName": "router-default-54fc68c669-",
+                "labels": {
+                    "ingresscontroller.operator.openshift.io/deployment-ingresscontroller": "default",
+                    "pod-template-hash": "54fc68c669"
+                },
+                "name": "router-default-54fc68c669-sdpgj",
+                "namespace": "openshift-ingress",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "router-default-54fc68c669",
+                        "uid": "dac38d18-e379-4183-bd1f-1766cc9b68be"
+                    }
+                ],
+                "resourceVersion": "5038644",
+                "selfLink": "/api/v1/namespaces/openshift-ingress/pods/router-default-54fc68c669-sdpgj",
+                "uid": "6438cbbe-d0df-4c28-9749-5841e29e4114"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "DEFAULT_CERTIFICATE_DIR",
+                                "value": "/etc/pki/tls/private"
+                            },
+                            {
+                                "name": "ROUTER_CANONICAL_HOSTNAME",
+                                "value": "apps.lab.okd.local"
+                            },
+                            {
+                                "name": "ROUTER_CIPHERS",
+                                "value": "TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384"
+                            },
+                            {
+                                "name": "ROUTER_DISABLE_NAMESPACE_OWNERSHIP_CHECK",
+                                "value": "false"
+                            },
+                            {
+                                "name": "ROUTER_METRICS_TLS_CERT_FILE",
+                                "value": "/etc/pki/tls/metrics-certs/tls.crt"
+                            },
+                            {
+                                "name": "ROUTER_METRICS_TLS_KEY_FILE",
+                                "value": "/etc/pki/tls/metrics-certs/tls.key"
+                            },
+                            {
+                                "name": "ROUTER_METRICS_TYPE",
+                                "value": "haproxy"
+                            },
+                            {
+                                "name": "ROUTER_SERVICE_NAME",
+                                "value": "default"
+                            },
+                            {
+                                "name": "ROUTER_SERVICE_NAMESPACE",
+                                "value": "openshift-ingress"
+                            },
+                            {
+                                "name": "ROUTER_THREADS",
+                                "value": "4"
+                            },
+                            {
+                                "name": "SSL_MIN_VERSION",
+                                "value": "TLSv1.2"
+                            },
+                            {
+                                "name": "STATS_PASSWORD",
+                                "valueFrom": {
+                                    "secretKeyRef": {
+                                        "key": "statsPassword",
+                                        "name": "router-stats-default"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "STATS_PORT",
+                                "value": "1936"
+                            },
+                            {
+                                "name": "STATS_USERNAME",
+                                "valueFrom": {
+                                    "secretKeyRef": {
+                                        "key": "statsUsername",
+                                        "name": "router-stats-default"
+                                    }
+                                }
+                            }
+                        ],
+                        "image": "quay.io/openshift/okd-content@sha256:c7b815de663ff5798afac1eff5abbe441b193a87e7e2ff4dff1af47bf61f3aae",
+                        "imagePullPolicy": "IfNotPresent",
+                        "livenessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "host": "localhost",
+                                "path": "/healthz",
+                                "port": 1936,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 10,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "name": "router",
+                        "ports": [
+                            {
+                                "containerPort": 80,
+                                "hostPort": 80,
+                                "name": "http",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 443,
+                                "hostPort": 443,
+                                "name": "https",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 1936,
+                                "hostPort": 1936,
+                                "name": "metrics",
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "readinessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "host": "localhost",
+                                "path": "/healthz/ready",
+                                "port": 1936,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 10,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "resources": {
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "256Mi"
+                            }
+                        },
+                        "securityContext": {
+                            "capabilities": {
+                                "drop": [
+                                    "KILL",
+                                    "MKNOD",
+                                    "SETGID",
+                                    "SETUID"
+                                ]
+                            },
+                            "runAsUser": 1000560000
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "FallbackToLogsOnError",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/etc/pki/tls/private",
+                                "name": "default-certificate",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/etc/pki/tls/metrics-certs",
+                                "name": "metrics-certs",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "router-token-dtzjg",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "hostNetwork": true,
+                "imagePullSecrets": [
+                    {
+                        "name": "router-dockercfg-v2t88"
+                    }
+                ],
+                "nodeName": "okd4-compute-3.lab.okd.local",
+                "nodeSelector": {
+                    "kubernetes.io/os": "linux",
+                    "node-role.kubernetes.io/worker": ""
+                },
+                "priority": 2000000000,
+                "priorityClassName": "system-cluster-critical",
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {
+                    "fsGroup": 1000560000,
+                    "seLinuxOptions": {
+                        "level": "s0:c24,c4"
+                    },
+                    "supplementalGroups": [
+                        1000560000
+                    ]
+                },
+                "serviceAccount": "router",
+                "serviceAccountName": "router",
+                "terminationGracePeriodSeconds": 3600,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoSchedule",
+                        "key": "node.kubernetes.io/memory-pressure",
+                        "operator": "Exists"
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "default-certificate",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "router-certs-default"
+                        }
+                    },
+                    {
+                        "name": "metrics-certs",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "router-metrics-certs-default"
+                        }
+                    },
+                    {
+                        "name": "router-token-dtzjg",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "router-token-dtzjg"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-06-15T09:41:04Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-06-15T09:41:29Z",
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-06-15T09:41:29Z",
+                        "status": "True",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-06-15T09:41:04Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "cri-o://447b05e2ad71e7f9b75f642b62cfbe6153859e0b6857fbc13c1bbac2984766b0",
+                        "image": "quay.io/openshift/okd-content@sha256:c7b815de663ff5798afac1eff5abbe441b193a87e7e2ff4dff1af47bf61f3aae",
+                        "imageID": "quay.io/openshift/okd-content@sha256:c7b815de663ff5798afac1eff5abbe441b193a87e7e2ff4dff1af47bf61f3aae",
+                        "lastState": {},
+                        "name": "router",
+                        "ready": true,
+                        "restartCount": 0,
+                        "started": true,
+                        "state": {
+                            "running": {
+                                "startedAt": "2020-06-15T09:41:14Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.1.1.206",
+                "phase": "Running",
+                "podIP": "10.1.1.206",
+                "podIPs": [
+                    {
+                        "ip": "10.1.1.206"
+                    }
+                ],
+                "qosClass": "Burstable",
+                "startTime": "2020-06-15T09:41:04Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "openshift.io/scc": "hostnetwork"
+                },
+                "creationTimestamp": "2020-06-17T09:52:00Z",
+                "generateName": "router-default-54fc68c669-",
+                "labels": {
+                    "ingresscontroller.operator.openshift.io/deployment-ingresscontroller": "default",
+                    "pod-template-hash": "54fc68c669"
+                },
+                "name": "router-default-54fc68c669-z99fs",
+                "namespace": "openshift-ingress",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "router-default-54fc68c669",
+                        "uid": "dac38d18-e379-4183-bd1f-1766cc9b68be"
+                    }
+                ],
+                "resourceVersion": "6071255",
+                "selfLink": "/api/v1/namespaces/openshift-ingress/pods/router-default-54fc68c669-z99fs",
+                "uid": "7ecb49b2-84ea-4a32-8799-40d9552f262f"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "DEFAULT_CERTIFICATE_DIR",
+                                "value": "/etc/pki/tls/private"
+                            },
+                            {
+                                "name": "ROUTER_CANONICAL_HOSTNAME",
+                                "value": "apps.lab.okd.local"
+                            },
+                            {
+                                "name": "ROUTER_CIPHERS",
+                                "value": "TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384"
+                            },
+                            {
+                                "name": "ROUTER_DISABLE_NAMESPACE_OWNERSHIP_CHECK",
+                                "value": "false"
+                            },
+                            {
+                                "name": "ROUTER_METRICS_TLS_CERT_FILE",
+                                "value": "/etc/pki/tls/metrics-certs/tls.crt"
+                            },
+                            {
+                                "name": "ROUTER_METRICS_TLS_KEY_FILE",
+                                "value": "/etc/pki/tls/metrics-certs/tls.key"
+                            },
+                            {
+                                "name": "ROUTER_METRICS_TYPE",
+                                "value": "haproxy"
+                            },
+                            {
+                                "name": "ROUTER_SERVICE_NAME",
+                                "value": "default"
+                            },
+                            {
+                                "name": "ROUTER_SERVICE_NAMESPACE",
+                                "value": "openshift-ingress"
+                            },
+                            {
+                                "name": "ROUTER_THREADS",
+                                "value": "4"
+                            },
+                            {
+                                "name": "SSL_MIN_VERSION",
+                                "value": "TLSv1.2"
+                            },
+                            {
+                                "name": "STATS_PASSWORD",
+                                "valueFrom": {
+                                    "secretKeyRef": {
+                                        "key": "statsPassword",
+                                        "name": "router-stats-default"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "STATS_PORT",
+                                "value": "1936"
+                            },
+                            {
+                                "name": "STATS_USERNAME",
+                                "valueFrom": {
+                                    "secretKeyRef": {
+                                        "key": "statsUsername",
+                                        "name": "router-stats-default"
+                                    }
+                                }
+                            }
+                        ],
+                        "image": "quay.io/openshift/okd-content@sha256:c7b815de663ff5798afac1eff5abbe441b193a87e7e2ff4dff1af47bf61f3aae",
+                        "imagePullPolicy": "IfNotPresent",
+                        "livenessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "host": "localhost",
+                                "path": "/healthz",
+                                "port": 1936,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 10,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "name": "router",
+                        "ports": [
+                            {
+                                "containerPort": 80,
+                                "hostPort": 80,
+                                "name": "http",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 443,
+                                "hostPort": 443,
+                                "name": "https",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 1936,
+                                "hostPort": 1936,
+                                "name": "metrics",
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "readinessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "host": "localhost",
+                                "path": "/healthz/ready",
+                                "port": 1936,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 10,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "resources": {
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "256Mi"
+                            }
+                        },
+                        "securityContext": {
+                            "capabilities": {
+                                "drop": [
+                                    "KILL",
+                                    "MKNOD",
+                                    "SETGID",
+                                    "SETUID"
+                                ]
+                            },
+                            "runAsUser": 1000560000
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "FallbackToLogsOnError",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/etc/pki/tls/private",
+                                "name": "default-certificate",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/etc/pki/tls/metrics-certs",
+                                "name": "metrics-certs",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "router-token-dtzjg",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "hostNetwork": true,
+                "imagePullSecrets": [
+                    {
+                        "name": "router-dockercfg-v2t88"
+                    }
+                ],
+                "nodeName": "okd4-compute-2.lab.okd.local",
+                "nodeSelector": {
+                    "kubernetes.io/os": "linux",
+                    "node-role.kubernetes.io/worker": ""
+                },
+                "priority": 2000000000,
+                "priorityClassName": "system-cluster-critical",
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {
+                    "fsGroup": 1000560000,
+                    "seLinuxOptions": {
+                        "level": "s0:c24,c4"
+                    },
+                    "supplementalGroups": [
+                        1000560000
+                    ]
+                },
+                "serviceAccount": "router",
+                "serviceAccountName": "router",
+                "terminationGracePeriodSeconds": 3600,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoSchedule",
+                        "key": "node.kubernetes.io/memory-pressure",
+                        "operator": "Exists"
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "default-certificate",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "router-certs-default"
+                        }
+                    },
+                    {
+                        "name": "metrics-certs",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "router-metrics-certs-default"
+                        }
+                    },
+                    {
+                        "name": "router-token-dtzjg",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "router-token-dtzjg"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-06-17T09:52:00Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-06-17T09:52:12Z",
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-06-17T09:52:12Z",
+                        "status": "True",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-06-17T09:52:00Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "cri-o://fc133cc0bda442af4029050612af17f60ef8a5e78c6dd3214e3964ed247ea5dc",
+                        "image": "quay.io/openshift/okd-content@sha256:c7b815de663ff5798afac1eff5abbe441b193a87e7e2ff4dff1af47bf61f3aae",
+                        "imageID": "quay.io/openshift/okd-content@sha256:c7b815de663ff5798afac1eff5abbe441b193a87e7e2ff4dff1af47bf61f3aae",
+                        "lastState": {},
+                        "name": "router",
+                        "ready": true,
+                        "restartCount": 0,
+                        "started": true,
+                        "state": {
+                            "running": {
+                                "startedAt": "2020-06-17T09:52:02Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.1.1.205",
+                "phase": "Running",
+                "podIP": "10.1.1.205",
+                "podIPs": [
+                    {
+                        "ip": "10.1.1.205"
+                    }
+                ],
+                "qosClass": "Burstable",
+                "startTime": "2020-06-17T09:52:00Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "service.alpha.openshift.io/serving-cert-secret-name": "router-metrics-certs-default",
+                    "service.alpha.openshift.io/serving-cert-signed-by": "openshift-service-serving-signer@1591276845",
+                    "service.beta.openshift.io/serving-cert-signed-by": "openshift-service-serving-signer@1591276845"
+                },
+                "creationTimestamp": "2020-06-04T14:42:51Z",
+                "labels": {
+                    "ingresscontroller.operator.openshift.io/owning-ingresscontroller": "default"
+                },
+                "name": "router-internal-default",
+                "namespace": "openshift-ingress",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "controller": true,
+                        "kind": "Deployment",
+                        "name": "router-default",
+                        "uid": "45e67ede-0765-482b-9b90-eb9ee4ae87c5"
+                    }
+                ],
+                "resourceVersion": "38800",
+                "selfLink": "/api/v1/namespaces/openshift-ingress/services/router-internal-default",
+                "uid": "8fe65738-093c-49ba-ae35-ad0a04345061"
+            },
+            "spec": {
+                "clusterIP": "172.30.153.29",
+                "ports": [
+                    {
+                        "name": "http",
+                        "port": 80,
+                        "protocol": "TCP",
+                        "targetPort": "http"
+                    },
+                    {
+                        "name": "https",
+                        "port": 443,
+                        "protocol": "TCP",
+                        "targetPort": "https"
+                    },
+                    {
+                        "name": "metrics",
+                        "port": 1936,
+                        "protocol": "TCP",
+                        "targetPort": 1936
+                    }
+                ],
+                "selector": {
+                    "ingresscontroller.operator.openshift.io/deployment-ingresscontroller": "default"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "3"
+                },
+                "creationTimestamp": "2020-06-04T14:42:51Z",
+                "generation": 34,
+                "labels": {
+                    "ingresscontroller.operator.openshift.io/owning-ingresscontroller": "default"
+                },
+                "name": "router-default",
+                "namespace": "openshift-ingress",
+                "resourceVersion": "6107154",
+                "selfLink": "/apis/apps/v1/namespaces/openshift-ingress/deployments/router-default",
+                "uid": "45e67ede-0765-482b-9b90-eb9ee4ae87c5"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 2,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "ingresscontroller.operator.openshift.io/deployment-ingresscontroller": "default"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": 0,
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "ingresscontroller.operator.openshift.io/deployment-ingresscontroller": "default"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "DEFAULT_CERTIFICATE_DIR",
+                                        "value": "/etc/pki/tls/private"
+                                    },
+                                    {
+                                        "name": "ROUTER_CANONICAL_HOSTNAME",
+                                        "value": "apps.lab.okd.local"
+                                    },
+                                    {
+                                        "name": "ROUTER_CIPHERS",
+                                        "value": "TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384"
+                                    },
+                                    {
+                                        "name": "ROUTER_DISABLE_NAMESPACE_OWNERSHIP_CHECK",
+                                        "value": "false"
+                                    },
+                                    {
+                                        "name": "ROUTER_METRICS_TLS_CERT_FILE",
+                                        "value": "/etc/pki/tls/metrics-certs/tls.crt"
+                                    },
+                                    {
+                                        "name": "ROUTER_METRICS_TLS_KEY_FILE",
+                                        "value": "/etc/pki/tls/metrics-certs/tls.key"
+                                    },
+                                    {
+                                        "name": "ROUTER_METRICS_TYPE",
+                                        "value": "haproxy"
+                                    },
+                                    {
+                                        "name": "ROUTER_SERVICE_NAME",
+                                        "value": "default"
+                                    },
+                                    {
+                                        "name": "ROUTER_SERVICE_NAMESPACE",
+                                        "value": "openshift-ingress"
+                                    },
+                                    {
+                                        "name": "ROUTER_THREADS",
+                                        "value": "4"
+                                    },
+                                    {
+                                        "name": "SSL_MIN_VERSION",
+                                        "value": "TLSv1.2"
+                                    },
+                                    {
+                                        "name": "STATS_PASSWORD",
+                                        "valueFrom": {
+                                            "secretKeyRef": {
+                                                "key": "statsPassword",
+                                                "name": "router-stats-default"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "STATS_PORT",
+                                        "value": "1936"
+                                    },
+                                    {
+                                        "name": "STATS_USERNAME",
+                                        "valueFrom": {
+                                            "secretKeyRef": {
+                                                "key": "statsUsername",
+                                                "name": "router-stats-default"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "image": "quay.io/openshift/okd-content@sha256:c7b815de663ff5798afac1eff5abbe441b193a87e7e2ff4dff1af47bf61f3aae",
+                                "imagePullPolicy": "IfNotPresent",
+                                "livenessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "host": "localhost",
+                                        "path": "/healthz",
+                                        "port": 1936,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 10,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 1
+                                },
+                                "name": "router",
+                                "ports": [
+                                    {
+                                        "containerPort": 80,
+                                        "hostPort": 80,
+                                        "name": "http",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 443,
+                                        "hostPort": 443,
+                                        "name": "https",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 1936,
+                                        "hostPort": 1936,
+                                        "name": "metrics",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "host": "localhost",
+                                        "path": "/healthz/ready",
+                                        "port": 1936,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 10,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 1
+                                },
+                                "resources": {
+                                    "requests": {
+                                        "cpu": "100m",
+                                        "memory": "256Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "FallbackToLogsOnError",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/etc/pki/tls/private",
+                                        "name": "default-certificate",
+                                        "readOnly": true
+                                    },
+                                    {
+                                        "mountPath": "/etc/pki/tls/metrics-certs",
+                                        "name": "metrics-certs",
+                                        "readOnly": true
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "hostNetwork": true,
+                        "nodeSelector": {
+                            "kubernetes.io/os": "linux",
+                            "node-role.kubernetes.io/worker": ""
+                        },
+                        "priorityClassName": "system-cluster-critical",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "serviceAccount": "router",
+                        "serviceAccountName": "router",
+                        "terminationGracePeriodSeconds": 3600,
+                        "volumes": [
+                            {
+                                "name": "default-certificate",
+                                "secret": {
+                                    "defaultMode": 420,
+                                    "secretName": "router-certs-default"
+                                }
+                            },
+                            {
+                                "name": "metrics-certs",
+                                "secret": {
+                                    "defaultMode": 420,
+                                    "secretName": "router-metrics-certs-default"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 2,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2020-06-05T10:07:40Z",
+                        "lastUpdateTime": "2020-06-05T10:07:40Z",
+                        "message": "ReplicaSet \"router-default-54fc68c669\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    },
+                    {
+                        "lastTransitionTime": "2020-06-16T08:31:29Z",
+                        "lastUpdateTime": "2020-06-16T08:31:29Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    }
+                ],
+                "observedGeneration": 34,
+                "readyReplicas": 2,
+                "replicas": 2,
+                "updatedReplicas": 2
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "ReplicaSet",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/desired-replicas": "2",
+                    "deployment.kubernetes.io/max-replicas": "2",
+                    "deployment.kubernetes.io/revision": "3"
+                },
+                "creationTimestamp": "2020-06-04T14:42:52Z",
+                "generation": 49,
+                "labels": {
+                    "ingresscontroller.operator.openshift.io/deployment-ingresscontroller": "default",
+                    "pod-template-hash": "54fc68c669"
+                },
+                "name": "router-default-54fc68c669",
+                "namespace": "openshift-ingress",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Deployment",
+                        "name": "router-default",
+                        "uid": "45e67ede-0765-482b-9b90-eb9ee4ae87c5"
+                    }
+                ],
+                "resourceVersion": "6107153",
+                "selfLink": "/apis/apps/v1/namespaces/openshift-ingress/replicasets/router-default-54fc68c669",
+                "uid": "dac38d18-e379-4183-bd1f-1766cc9b68be"
+            },
+            "spec": {
+                "replicas": 2,
+                "selector": {
+                    "matchLabels": {
+                        "ingresscontroller.operator.openshift.io/deployment-ingresscontroller": "default",
+                        "pod-template-hash": "54fc68c669"
+                    }
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "ingresscontroller.operator.openshift.io/deployment-ingresscontroller": "default",
+                            "pod-template-hash": "54fc68c669"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "DEFAULT_CERTIFICATE_DIR",
+                                        "value": "/etc/pki/tls/private"
+                                    },
+                                    {
+                                        "name": "ROUTER_CANONICAL_HOSTNAME",
+                                        "value": "apps.lab.okd.local"
+                                    },
+                                    {
+                                        "name": "ROUTER_CIPHERS",
+                                        "value": "TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384"
+                                    },
+                                    {
+                                        "name": "ROUTER_DISABLE_NAMESPACE_OWNERSHIP_CHECK",
+                                        "value": "false"
+                                    },
+                                    {
+                                        "name": "ROUTER_METRICS_TLS_CERT_FILE",
+                                        "value": "/etc/pki/tls/metrics-certs/tls.crt"
+                                    },
+                                    {
+                                        "name": "ROUTER_METRICS_TLS_KEY_FILE",
+                                        "value": "/etc/pki/tls/metrics-certs/tls.key"
+                                    },
+                                    {
+                                        "name": "ROUTER_METRICS_TYPE",
+                                        "value": "haproxy"
+                                    },
+                                    {
+                                        "name": "ROUTER_SERVICE_NAME",
+                                        "value": "default"
+                                    },
+                                    {
+                                        "name": "ROUTER_SERVICE_NAMESPACE",
+                                        "value": "openshift-ingress"
+                                    },
+                                    {
+                                        "name": "ROUTER_THREADS",
+                                        "value": "4"
+                                    },
+                                    {
+                                        "name": "SSL_MIN_VERSION",
+                                        "value": "TLSv1.2"
+                                    },
+                                    {
+                                        "name": "STATS_PASSWORD",
+                                        "valueFrom": {
+                                            "secretKeyRef": {
+                                                "key": "statsPassword",
+                                                "name": "router-stats-default"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "STATS_PORT",
+                                        "value": "1936"
+                                    },
+                                    {
+                                        "name": "STATS_USERNAME",
+                                        "valueFrom": {
+                                            "secretKeyRef": {
+                                                "key": "statsUsername",
+                                                "name": "router-stats-default"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "image": "quay.io/openshift/okd-content@sha256:c7b815de663ff5798afac1eff5abbe441b193a87e7e2ff4dff1af47bf61f3aae",
+                                "imagePullPolicy": "IfNotPresent",
+                                "livenessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "host": "localhost",
+                                        "path": "/healthz",
+                                        "port": 1936,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 10,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 1
+                                },
+                                "name": "router",
+                                "ports": [
+                                    {
+                                        "containerPort": 80,
+                                        "hostPort": 80,
+                                        "name": "http",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 443,
+                                        "hostPort": 443,
+                                        "name": "https",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 1936,
+                                        "hostPort": 1936,
+                                        "name": "metrics",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "host": "localhost",
+                                        "path": "/healthz/ready",
+                                        "port": 1936,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 10,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 1
+                                },
+                                "resources": {
+                                    "requests": {
+                                        "cpu": "100m",
+                                        "memory": "256Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "FallbackToLogsOnError",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/etc/pki/tls/private",
+                                        "name": "default-certificate",
+                                        "readOnly": true
+                                    },
+                                    {
+                                        "mountPath": "/etc/pki/tls/metrics-certs",
+                                        "name": "metrics-certs",
+                                        "readOnly": true
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "hostNetwork": true,
+                        "nodeSelector": {
+                            "kubernetes.io/os": "linux",
+                            "node-role.kubernetes.io/worker": ""
+                        },
+                        "priorityClassName": "system-cluster-critical",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "serviceAccount": "router",
+                        "serviceAccountName": "router",
+                        "terminationGracePeriodSeconds": 3600,
+                        "volumes": [
+                            {
+                                "name": "default-certificate",
+                                "secret": {
+                                    "defaultMode": 420,
+                                    "secretName": "router-certs-default"
+                                }
+                            },
+                            {
+                                "name": "metrics-certs",
+                                "secret": {
+                                    "defaultMode": 420,
+                                    "secretName": "router-metrics-certs-default"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 2,
+                "fullyLabeledReplicas": 2,
+                "observedGeneration": 49,
+                "readyReplicas": 2,
+                "replicas": 2
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "ReplicaSet",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/desired-replicas": "2",
+                    "deployment.kubernetes.io/max-replicas": "3",
+                    "deployment.kubernetes.io/revision": "1"
+                },
+                "creationTimestamp": "2020-06-04T14:42:51Z",
+                "generation": 3,
+                "labels": {
+                    "ingresscontroller.operator.openshift.io/deployment-ingresscontroller": "default",
+                    "pod-template-hash": "7545bd79d5"
+                },
+                "name": "router-default-7545bd79d5",
+                "namespace": "openshift-ingress",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Deployment",
+                        "name": "router-default",
+                        "uid": "45e67ede-0765-482b-9b90-eb9ee4ae87c5"
+                    }
+                ],
+                "resourceVersion": "6105914",
+                "selfLink": "/apis/apps/v1/namespaces/openshift-ingress/replicasets/router-default-7545bd79d5",
+                "uid": "ef031b90-a441-43ff-9c70-61c5906243a2"
+            },
+            "spec": {
+                "replicas": 0,
+                "selector": {
+                    "matchLabels": {
+                        "ingresscontroller.operator.openshift.io/deployment-ingresscontroller": "default",
+                        "pod-template-hash": "7545bd79d5"
+                    }
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "ingresscontroller.operator.openshift.io/deployment-ingresscontroller": "default",
+                            "pod-template-hash": "7545bd79d5"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "STATS_PORT",
+                                        "value": "1936"
+                                    },
+                                    {
+                                        "name": "ROUTER_SERVICE_NAMESPACE",
+                                        "value": "openshift-ingress"
+                                    },
+                                    {
+                                        "name": "DEFAULT_CERTIFICATE_DIR",
+                                        "value": "/etc/pki/tls/private"
+                                    },
+                                    {
+                                        "name": "ROUTER_SERVICE_NAME",
+                                        "value": "default"
+                                    },
+                                    {
+                                        "name": "STATS_USERNAME",
+                                        "valueFrom": {
+                                            "secretKeyRef": {
+                                                "key": "statsUsername",
+                                                "name": "router-stats-default"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "STATS_PASSWORD",
+                                        "valueFrom": {
+                                            "secretKeyRef": {
+                                                "key": "statsPassword",
+                                                "name": "router-stats-default"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "ROUTER_METRICS_TYPE",
+                                        "value": "haproxy"
+                                    },
+                                    {
+                                        "name": "ROUTER_METRICS_TLS_CERT_FILE",
+                                        "value": "/etc/pki/tls/metrics-certs/tls.crt"
+                                    },
+                                    {
+                                        "name": "ROUTER_METRICS_TLS_KEY_FILE",
+                                        "value": "/etc/pki/tls/metrics-certs/tls.key"
+                                    },
+                                    {
+                                        "name": "ROUTER_CANONICAL_HOSTNAME",
+                                        "value": "apps.lab.okd.local"
+                                    },
+                                    {
+                                        "name": "ROUTER_THREADS",
+                                        "value": "4"
+                                    },
+                                    {
+                                        "name": "ROUTER_CIPHERS",
+                                        "value": "TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384"
+                                    },
+                                    {
+                                        "name": "SSL_MIN_VERSION",
+                                        "value": "TLSv1.2"
+                                    },
+                                    {
+                                        "name": "ROUTER_DISABLE_NAMESPACE_OWNERSHIP_CHECK",
+                                        "value": "false"
+                                    }
+                                ],
+                                "image": "quay.io/openshift/okd-content@sha256:c7b815de663ff5798afac1eff5abbe441b193a87e7e2ff4dff1af47bf61f3aae",
+                                "imagePullPolicy": "IfNotPresent",
+                                "livenessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "host": "localhost",
+                                        "path": "/healthz",
+                                        "port": 1936,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 10,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 1
+                                },
+                                "name": "router",
+                                "ports": [
+                                    {
+                                        "containerPort": 80,
+                                        "hostPort": 80,
+                                        "name": "http",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 443,
+                                        "hostPort": 443,
+                                        "name": "https",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 1936,
+                                        "hostPort": 1936,
+                                        "name": "metrics",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "host": "localhost",
+                                        "path": "/healthz/ready",
+                                        "port": 1936,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 10,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 1
+                                },
+                                "resources": {
+                                    "requests": {
+                                        "cpu": "100m",
+                                        "memory": "256Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "FallbackToLogsOnError",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/etc/pki/tls/private",
+                                        "name": "default-certificate",
+                                        "readOnly": true
+                                    },
+                                    {
+                                        "mountPath": "/etc/pki/tls/metrics-certs",
+                                        "name": "metrics-certs",
+                                        "readOnly": true
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "hostNetwork": true,
+                        "nodeSelector": {
+                            "kubernetes.io/os": "linux",
+                            "node-role.kubernetes.io/worker": ""
+                        },
+                        "priorityClassName": "system-cluster-critical",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "serviceAccount": "router",
+                        "serviceAccountName": "router",
+                        "terminationGracePeriodSeconds": 3600,
+                        "volumes": [
+                            {
+                                "name": "default-certificate",
+                                "secret": {
+                                    "defaultMode": 420,
+                                    "secretName": "router-certs-default"
+                                }
+                            },
+                            {
+                                "name": "metrics-certs",
+                                "secret": {
+                                    "defaultMode": 420,
+                                    "secretName": "router-metrics-certs-default"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "observedGeneration": 3,
+                "replicas": 0
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": "",
+        "selfLink": ""
+    }
+}
